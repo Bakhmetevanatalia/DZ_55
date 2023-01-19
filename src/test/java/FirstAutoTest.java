@@ -45,16 +45,17 @@ public class FirstAutoTest {
                 .sendKeys(driver.findElement(By.xpath("//*[@id='id_lname_latin']")),"LName")
                 .sendKeys(driver.findElement(By.xpath("//*[@id='id_blog_name']")),"BlogName")
                 .sendKeys(driver.findElement(By.xpath("//*[@name='date_of_birth']")),"11.11.2000")
-                .click(driver.findElement(By.xpath("//*[@class='input input_full lk-cv-block__input lk-cv-block__input_fake lk-cv-block__input_select-fake js-custom-select-presentation']")))
+                .click(driver.findElement(By.cssSelector("[name='country'] ~ div")))
                 .click(driver.findElement(By.xpath("//ancestor::*[contains(@data-ajax-slave, 'by_country')]//button[@title='Россия']")))
                 .moveToElement(driver.findElement(By.cssSelector(".js-lk-cv-dependent-slave-city"))).click().perform();
         driver.findElement(By.cssSelector("button.lk-cv-block__select-option[title='Москва']")).click();
-        actions.moveToElement(driver.findElement(By.xpath("//div[3]/div[2]/div/label/div"))).click().perform();
+ //       actions.moveToElement(driver.findElement(By.xpath("//div[3]/div[2]/div/label/div"))).click().perform();
+        actions.moveToElement(driver.findElement(By.xpath("//div[contains(text(),'Средний')]"))).click().perform();
         driver.findElement(By.cssSelector("button.lk-cv-block__select-option[title='Средний (Intermediate)']")).click();
        actions.click(driver.findElement(By.xpath("//*[text()='Способ связи']")))
                 .click(driver.findElement(By.xpath("//ancestor::*[contains(@data-num, '0')]//button[6]")))
                 .sendKeys(driver.findElement(By.xpath("//*[@id='id_contact-0-value']")),"111")
-                .click(driver.findElement(By.xpath("//button[@class='lk-cv-block__action lk-cv-block__action_md-no-spacing js-formset-add js-lk-cv-custom-select-add']"))).release().perform();
+                .click(driver.findElement(By.cssSelector(".js-lk-cv-custom-select-add"))).release().perform();
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
         actions.click(driver.findElement(By.xpath("//*[text()='Способ связи']")))
                 .click(driver.findElement(By.xpath("//ancestor::*[contains(@data-num, '1')]//button[6]")))
@@ -72,7 +73,7 @@ public class FirstAutoTest {
         Assertions.assertEquals("LName", driver.findElement(By.xpath("//*[@id='id_lname_latin']")).getAttribute("value"));
         Assertions.assertEquals("BlogName", driver.findElement(By.xpath("//*[@id='id_blog_name']")).getAttribute("value"));
         Assertions.assertEquals("11.11.2000", driver.findElement(By.xpath("//*[@name='date_of_birth']")).getAttribute("value"));
-        Assertions.assertEquals("Россия", driver.findElement(By.xpath("//*[@class='input input_full lk-cv-block__input lk-cv-block__input_fake lk-cv-block__input_select-fake js-custom-select-presentation']")).getText());
+        Assertions.assertEquals("Россия", driver.findElement(By.cssSelector("[name='country'] ~ div")).getText());
         Assertions.assertEquals("Москва", driver.findElement(By.cssSelector(".js-lk-cv-dependent-slave-city")).getText());
         Assertions.assertEquals("111", driver.findElement(By.xpath("//*[@id='id_contact-0-value']")).getAttribute("value"));
         Assertions.assertEquals("222", driver.findElement(By.xpath("//*[@id='id_contact-1-value']")).getAttribute("value"));
@@ -87,8 +88,8 @@ public class FirstAutoTest {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        clearAndEnter(By.xpath("//*[@class='new-log-reg__form js-login']/descendant::*[@placeholder='Электронная почта']"), login);
-        clearAndEnter(By.xpath("//*[@class='new-log-reg__form js-login']/descendant::*[@placeholder='Введите пароль']"), pas);
+        clearAndEnter(By.cssSelector("input:not(.js-remove-field-error).js-email-input[placeholder*=\"Электронная почта\"]"), login);
+        clearAndEnter(By.cssSelector(".js-psw-input[placeholder*=\"Введите пароль\"]"), pas);
         driver.findElement(By.xpath("//*[normalize-space(text()) = 'Войти' and @type='submit']")).submit();
      }
 
