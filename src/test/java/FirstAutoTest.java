@@ -30,6 +30,7 @@ public class FirstAutoTest {
         driver.get("https://otus.ru");
         loginInOtus();
         Actions actions = new Actions(driver);
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
         actions.moveToElement(driver.findElement(By.xpath("//span[@class='header3__user-info-name']")))
                 .click(driver.findElement(By.xpath("//*[normalize-space(text()) = 'Мой профиль']"))).release().perform();
@@ -51,7 +52,8 @@ public class FirstAutoTest {
         driver.findElement(By.cssSelector("button.lk-cv-block__select-option[title='Москва']")).click();
         actions.moveToElement(driver.findElement(By.xpath("//div[contains(text(),'Средний')]"))).click().perform();
         driver.findElement(By.cssSelector("button.lk-cv-block__select-option[title='Средний (Intermediate)']")).click();
-       actions.click(driver.findElement(By.xpath("//*[text()='Способ связи']")))
+        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+        actions.click(driver.findElement(By.xpath("//*[text()='Способ связи']")))
                 .click(driver.findElement(By.xpath("//ancestor::*[contains(@data-num, '0')]//button[6]")))
                 .sendKeys(driver.findElement(By.xpath("//*[@id='id_contact-0-value']")),"111")
                 .click(driver.findElement(By.cssSelector(".js-lk-cv-custom-select-add"))).release().perform();
@@ -87,7 +89,8 @@ public class FirstAutoTest {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        clearAndEnter(By.cssSelector("input:not(.js-remove-field-error).js-email-input[placeholder*=\"Электронная почта\"]"), login);
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector("input:not(.js-remove-field-error).js-email-input[placeholder*=\"Электронная почта\"]")));
+                clearAndEnter(By.cssSelector("input:not(.js-remove-field-error).js-email-input[placeholder*=\"Электронная почта\"]"), login);
         clearAndEnter(By.cssSelector(".js-psw-input[placeholder*=\"Введите пароль\"]"), pas);
         driver.findElement(By.xpath("//*[normalize-space(text()) = 'Войти' and @type='submit']")).submit();
      }
