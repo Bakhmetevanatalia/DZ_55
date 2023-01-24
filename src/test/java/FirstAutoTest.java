@@ -47,8 +47,9 @@ public class FirstAutoTest {
                 .sendKeys(driver.findElement(By.xpath("//*[@id='id_blog_name']")),"BlogName")
                 .sendKeys(driver.findElement(By.xpath("//*[@name='date_of_birth']")),"11.11.2000")
                 .click(driver.findElement(By.cssSelector("[name='country'] ~ div")))
-                .click(driver.findElement(By.xpath("//ancestor::*[contains(@data-ajax-slave, 'by_country')]//button[@title='Россия']")))
-                .moveToElement(driver.findElement(By.cssSelector(".js-lk-cv-dependent-slave-city"))).click().perform();
+                .click(driver.findElement(By.xpath("//ancestor::*[contains(@data-ajax-slave, 'by_country')]//button[@title='Россия']"))).release().perform();
+        actions.click(driver.findElement(By.cssSelector(".js-lk-cv-dependent-slave-city"))).release().perform();
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector("button.lk-cv-block__select-option[title='Москва']")));
         driver.findElement(By.cssSelector("button.lk-cv-block__select-option[title='Москва']")).click();
         actions.moveToElement(driver.findElement(By.xpath("//div[contains(text(),'Средний')]"))).click().perform();
         driver.findElement(By.cssSelector("button.lk-cv-block__select-option[title='Средний (Intermediate)']")).click();
