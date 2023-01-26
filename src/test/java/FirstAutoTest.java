@@ -48,19 +48,20 @@ public class FirstAutoTest {
                 .sendKeys(driver.findElement(By.xpath("//*[@name='date_of_birth']")),"11.11.2000")
                 .click(driver.findElement(By.cssSelector("[name='country'] ~ div")))
                 .click(driver.findElement(By.xpath("//ancestor::*[contains(@data-ajax-slave, 'by_country')]//button[@title='Россия']"))).release().perform();
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector(".js-lk-cv-dependent-slave-city")));
         actions.click(driver.findElement(By.cssSelector(".js-lk-cv-dependent-slave-city"))).release().perform();
         wait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector("button.lk-cv-block__select-option[title='Москва']")));
         driver.findElement(By.cssSelector("button.lk-cv-block__select-option[title='Москва']")).click();
         actions.moveToElement(driver.findElement(By.xpath("//div[contains(text(),'Средний')]"))).click().perform();
         driver.findElement(By.cssSelector("button.lk-cv-block__select-option[title='Средний (Intermediate)']")).click();
-        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-        actions.click(driver.findElement(By.xpath("//*[text()='Способ связи']")))
-                .click(driver.findElement(By.xpath("//ancestor::*[contains(@data-num, '0')]//button[6]")))
+        driver.findElement(By.cssSelector("input[name*='contact-0']~.lk-cv-block__input")).click();
+        driver.findElement(By.xpath("//*[@id='id_contact-0-value']")).clear();
+        actions.click(driver.findElement(By.xpath("//ancestor::*[contains(@data-num, '0')]//button[6]")))
                 .sendKeys(driver.findElement(By.xpath("//*[@id='id_contact-0-value']")),"111")
                 .click(driver.findElement(By.cssSelector(".js-lk-cv-custom-select-add"))).release().perform();
-        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-        actions.click(driver.findElement(By.xpath("//*[text()='Способ связи']")))
-                .click(driver.findElement(By.xpath("//ancestor::*[contains(@data-num, '1')]//button[6]")))
+        driver.findElement(By.cssSelector("input[name*='contact-1']~.lk-cv-block__input")).click();
+        driver.findElement(By.xpath("//*[@id='id_contact-1-value']")).clear();
+        actions.click(driver.findElement(By.xpath("//ancestor::*[contains(@data-num, '1')]//button[6]")))
                 .sendKeys(driver.findElement(By.xpath("//*[@id='id_contact-1-value']")),"222")
                 .click(driver.findElement(By.xpath("//*[normalize-space(text()) = 'Сохранить и продолжить']"))).release().perform();
         driver.manage().deleteAllCookies();
@@ -68,7 +69,7 @@ public class FirstAutoTest {
         loginInOtus();
         actions.moveToElement(driver.findElement(By.xpath("//span[@class='header3__user-info-name']")))
                .click(driver.findElement(By.xpath("//*[normalize-space(text()) = 'Мой профиль']"))).release().perform();
-        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+  //      driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
         Assertions.assertEquals("Имя", driver.findElement(By.xpath("//*[@id='id_fname']")).getAttribute("value"));
         Assertions.assertEquals("Фамилия", driver.findElement(By.xpath("//*[@id='id_lname']")).getAttribute("value"));
         Assertions.assertEquals("FName", driver.findElement(By.xpath("//*[@id='id_fname_latin']")).getAttribute("value"));
