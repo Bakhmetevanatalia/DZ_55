@@ -31,8 +31,9 @@ public class FirstAutoTest {
         loginInOtus();
         Actions actions = new Actions(driver);
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
-        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-        actions.moveToElement(driver.findElement(By.xpath("//span[@class='header3__user-info-name']")))
+        //   driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".header3__user-info-name")));
+        actions.moveToElement(driver.findElement(By.cssSelector(".header3__user-info-name")))
                 .click(driver.findElement(By.xpath("//*[normalize-space(text()) = 'Мой профиль']"))).release().perform();
         driver.findElement(By.xpath("//*[@id='id_fname']")).clear();
         driver.findElement(By.xpath("//*[@id='id_fname_latin']")).clear();
@@ -67,7 +68,8 @@ public class FirstAutoTest {
         driver.manage().deleteAllCookies();
         driver.get("https://otus.ru");
         loginInOtus();
-        actions.moveToElement(driver.findElement(By.xpath("//span[@class='header3__user-info-name']")))
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".header3__user-info-name")));
+        actions.moveToElement(driver.findElement(By.cssSelector(".header3__user-info-name")))
                .click(driver.findElement(By.xpath("//*[normalize-space(text()) = 'Мой профиль']"))).release().perform();
   //      driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
         Assertions.assertEquals("Имя", driver.findElement(By.xpath("//*[@id='id_fname']")).getAttribute("value"));
