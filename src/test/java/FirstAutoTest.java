@@ -7,6 +7,7 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.openqa.selenium.JavascriptExecutor;
 
 
 import java.time.Duration;
@@ -20,7 +21,6 @@ public class FirstAutoTest {
     private final String login = "wasej93407@dni8.com";
     private final String pas = "Natalia12345!";
     private WebDriver driver;
-    ChromeOptions options = new ChromeOptions();
 
     @Test
     public void autoTest(){
@@ -31,7 +31,6 @@ public class FirstAutoTest {
         loginInOtus();
         Actions actions = new Actions(driver);
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
-        //   driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".header3__user-info-name")));
         actions.moveToElement(driver.findElement(By.cssSelector(".header3__user-info-name")))
                 .click(driver.findElement(By.xpath("//*[normalize-space(text()) = 'Мой профиль']"))).release().perform();
@@ -49,12 +48,14 @@ public class FirstAutoTest {
                 .sendKeys(driver.findElement(By.xpath("//*[@name='date_of_birth']")),"11.11.2000")
                 .click(driver.findElement(By.cssSelector("[name='country'] ~ div")))
                 .click(driver.findElement(By.xpath("//ancestor::*[contains(@data-ajax-slave, 'by_country')]//button[@title='Россия']"))).release().perform();
-        wait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector(".js-lk-cv-dependent-slave-city")));
-        actions.click(driver.findElement(By.cssSelector(".js-lk-cv-dependent-slave-city"))).release().perform();
-        wait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector("button.lk-cv-block__select-option[title='Москва']")));
-        driver.findElement(By.cssSelector("button.lk-cv-block__select-option[title='Москва']")).click();
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        js.executeScript("javascript:window.scrollBy(200,300)");
         actions.moveToElement(driver.findElement(By.xpath("//div[contains(text(),'Средний')]"))).click().perform();
         driver.findElement(By.cssSelector("button.lk-cv-block__select-option[title='Средний (Intermediate)']")).click();
+        wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("input[name='city']+div")));
+        actions.moveToElement(driver.findElement(By.cssSelector("input[name='city']+div"))).click().perform();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("button[title=Москва]")));
+        driver.findElement(By.cssSelector("button[title=Москва]")).click();
         driver.findElement(By.cssSelector("input[name*='contact-0']~.lk-cv-block__input")).click();
         driver.findElement(By.xpath("//*[@id='id_contact-0-value']")).clear();
         actions.click(driver.findElement(By.xpath("//ancestor::*[contains(@data-num, '0')]//button[6]")))
@@ -71,7 +72,6 @@ public class FirstAutoTest {
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".header3__user-info-name")));
         actions.moveToElement(driver.findElement(By.cssSelector(".header3__user-info-name")))
                .click(driver.findElement(By.xpath("//*[normalize-space(text()) = 'Мой профиль']"))).release().perform();
-  //      driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
         Assertions.assertEquals("Имя", driver.findElement(By.xpath("//*[@id='id_fname']")).getAttribute("value"));
         Assertions.assertEquals("Фамилия", driver.findElement(By.xpath("//*[@id='id_lname']")).getAttribute("value"));
         Assertions.assertEquals("FName", driver.findElement(By.xpath("//*[@id='id_fname_latin']")).getAttribute("value"));
@@ -89,7 +89,7 @@ public class FirstAutoTest {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         driver.findElement(By.cssSelector(".header3__button-sign-in")).click();
         try {
-            wait.until(ExpectedConditions.visibilityOf(driver.findElement(By.cssSelector(".header3__button-sign-in"))));
+            wait.until(ExpectedConditions.visibilityOf(driver.findElement(By.cssSelector(".new-log-reg"))));
         } catch (Exception e) {
             e.printStackTrace();
         }
